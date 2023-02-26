@@ -1,4 +1,4 @@
 {
     "image":"mcr.microsoft.com/devcontainers/universal:2",
-    "postCreateCommand": "sudo apt update && sudo apt install lua5.2 && sudo npm install -g luamin && git fetch --all"
+    "postCreateCommand": "sudo apt update && sudo apt install lua5.2 && sudo npm install -g luamin && git submodule update --init && git fetch --all"
 }

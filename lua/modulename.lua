@@ -23,7 +23,8 @@ local newgame = pshy.require("pshy.rotations.newgame")
 local Rotation = pshy.require("pshy.utils.rotation")
 local maps = pshy.require("pshy.maps.list")
 
-local levels = pshy.require("trap_levels")
+local traps = pshy.require("traps")
+local levels = pshy.require("trap_levels")(traps)
 
 
 rotations["module"] = Rotation:New({items = {}, autoskip = false, is_random = false, shamans = 0})
@@ -64,6 +65,29 @@ version.days_before_update_suggested = 14						-- How old the script should be b
 version.days_before_update_advised = 30							-- How old the script should be before requesting an update (`nil` to disable).
 version.days_before_update_required = nil						-- How old the script should be before refusing to start (`nil` to disable).
 
+
+
+function eventNewGame()
+	local map = newgame.current_map
+
+	traps.reset()
+
+	if map and map.traps then
+		traps.load(map.traps)
+	end
+end
+
+function eventLoop(elapsed, remaining)
+	traps.tick()
+end
+
+function eventNewPlayer(playerName)
+	traps.reloadGrounds()
+end
+
+function eventContactListener(name, id, contact)
+	traps.onContact(name, id, contact)
+end
 
 
 function eventInit()

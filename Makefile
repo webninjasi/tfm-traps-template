@@ -33,7 +33,7 @@ pshy_merge/combine.py:
 -include $(DEPS_DIR)/*.tfm.lua.txt.d
 
 lua/trap_levels/init.lua: trap_levels/*.xml
-	python3 tfm-traps/parse_traps.py ./trap_levels/ ./lua/trap_levels/
+	python3 tfm-traps/parse_traps.py ./trap_levels/ ./lua/trap_levels/ 'pshy.require("trap_levels.%s")'
 
 $(OUT_DIR)/%.tfm.lua.txt: | pshy_merge/combine.py $(OUT_DIR)/ $(DEPS_DIR)/
 	@printf "\e[92m Generating %s\n" $@ || true

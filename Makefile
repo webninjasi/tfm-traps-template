@@ -6,10 +6,10 @@ DEPS_DIR				= deps
 NAME_MAIN				= $(OUT_DIR)/modulename.tfm.lua.txt
 NAME_TRIBEHOUSE			= $(OUT_DIR)/modulename_tribehouse.tfm.lua.txt
 NAME_FUNCORP			= $(OUT_DIR)/modulename_funcorp.tfm.lua.txt
-ALL_NAMES				= $(NAME_MAIN) $(NAME_TRIBEHOUSE) $(NAME_FUNCORP)
+ALL_NAMES				= lua/trap_levels/init.lua $(NAME_MAIN) $(NAME_TRIBEHOUSE) $(NAME_FUNCORP)
 ALL_TESTS				= $(patsubst $(OUT_DIR)/%.tfm.lua.txt, $(TEST_RESULTS_DIR)/%.stdout.txt, $(ALL_NAMES))
 
-OPTIONS					= --werror --test-init --minify
+OPTIONS					= --werror --test-init --minify --add-path ./tfm-traps/lua/?.lua
 
 # Rules:
 all: $(ALL_NAMES)
@@ -32,6 +32,9 @@ pshy_merge/combine.py:
 
 -include $(DEPS_DIR)/*.tfm.lua.txt.d
 
+lua/trap_levels/init.lua: trap_levels/*.xml
+	python3 tfm-traps/parse_traps.py ./trap_levels/ ./lua/trap_levels/
+
 $(OUT_DIR)/%.tfm.lua.txt: | pshy_merge/combine.py $(OUT_DIR)/ $(DEPS_DIR)/
 	@printf "\e[92m Generating %s\n" $@ || true
 	@printf "\e[94m" || true
@@ -52,6 +55,7 @@ $(TEST_RESULTS_DIR)/%.stdout.txt: $(OUT_DIR)/%.tfm.lua.txt $(NAME_TFMEMULATOR) |
 .PHONY: clean
 clean:
 	@printf "\e[91m" || true
+	rm -f lua/trap_levels/init.lua
 	rm -rf $(DEPS_DIR)/*.tfm.lua.txt.d
 	rmdir $(DEPS_DIR) || true
 	rm -rf $(TEST_RESULTS_DIR)/*.stdout.txt

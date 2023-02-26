@@ -13,5 +13,8 @@ pshy_merge/tmp/
 test_results/
 deps/
 
+# Generated files:
+lua/trap_levels/*.lua
+
 # Thirdparty scripts:
 pshy_merge/lua/other/

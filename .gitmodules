@@ -1,3 +1,6 @@
 [submodule "pshy_merge"]
 	path = pshy_merge
 	url = https://github.com/Pshy0/pshy_merge.git
+[submodule "tfm-traps"]
+	path = tfm-traps
+	url = https://github.com/webninjasi/tfm-traps

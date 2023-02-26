@@ -11,6 +11,31 @@ pshy.require("pshy.perms")
 pshy.require("pshy.bases.version")
 
 
+-- Disables ground parsing
+local mapinfo = pshy.require("pshy.rotations.mapinfo")
+mapinfo.max_grounds = 0
+
+
+
+--- Maps
+local rotations = pshy.require("pshy.rotations.list")
+local newgame = pshy.require("pshy.rotations.newgame")
+local Rotation = pshy.require("pshy.utils.rotation")
+local maps = pshy.require("pshy.maps.list")
+
+local levels = pshy.require("trap_levels")
+
+
+rotations["module"] = Rotation:New({items = {}, autoskip = false, is_random = false, shamans = 0})
+local map_list = rotations["module"].items
+
+
+-- Test Level
+maps["test"] = {author = "Lays#1146", xml = levels["test"].xml, duration = 8 * 60}
+maps["test"].traps = levels["test"].traps
+table.insert(map_list, "test")
+
+
 
 --- TFM Settings:
 --system.disableChatCommandDisplay(nil, true)
@@ -42,7 +67,6 @@ version.days_before_update_required = nil						-- How old the script should be b
 
 
 function eventInit()
-	print("This is the pshy_merge template example.")
-	--newgame.SetRotation("#17")
-	--tfm.exec.newGame()
+	newgame.SetRotation("module")
+	tfm.exec.newGame("module")
 end
